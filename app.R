@@ -14,22 +14,17 @@ library(reticulate)
 ui <- fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Linkify"),
 
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+          textInput("linkify", label = h3("Linkify this"), value = "Example github.com"), 
         ),
 
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("distPlot"),
-           textOutput("python")
+           tableOutput("python")
         )
     )
 )
@@ -37,20 +32,9 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
-    })
-    
-    output$python <- renderText({
+    output$python <- renderTable({
       source_python("linkify.py")
-      run("Source github.com")
+      run(input$linkify)
     })
 }
 
