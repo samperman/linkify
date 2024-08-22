@@ -34,7 +34,7 @@ server <- function(input, output) {
 
     output$python <- renderTable({
       source_python("linkify.py")
-      run(input$linkify)
+      linkify(input$linkify)
     })
 }
 
