@@ -9,7 +9,7 @@
 
 library(shiny)
 library(reticulate)
-
+source_python("linkify.py")
 # Define UI for application that draws a histogram
 ui <- fluidPage(
 
